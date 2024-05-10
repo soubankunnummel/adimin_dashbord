@@ -4,10 +4,11 @@ import EmployeeModel from "../Model/EmployeeSchema.js";
 ///////////// CREATE EMPLOYEE ////////////////
 
 export const CreateEmployee = async (req, res) => {
-  const { name, email, phone, desigination, gender, coures } = req.body;
+  const { name, email, phone, desigination, gender, course } = req.body;
   const image = req.imagUrl;
+  console.log(image)
 
-  if (!name || !email || !phone || !desigination || !gender || !coures)
+  if (!name || !email || !phone || !desigination || !gender || !course)
     return res.status(400).json("pleas fill all the filds");
 
   const newEmployee = await EmployeeModel.create({
@@ -16,7 +17,7 @@ export const CreateEmployee = async (req, res) => {
     phone,
     desigination,
     gender,
-    coures,
+    course,
     image,
     public_id: req.publiId,
   });
@@ -63,4 +64,20 @@ export const getEmployees = async (req, res) => {
     res.status(400).json({error:"No Employees founded"})
   }
   res.status(200).json(employee)
+}
+
+
+
+//////////// DELET EMPLOYEE ///////////////
+
+export const deleteEmployee  = async(req, res) => {
+  const id = req.params.id;
+  const employee = await EmployeeModel.findById(id);
+  
+  if (!employee) {
+    return res.status(400).json({ error: "Employee not found!" });
+  }
+ 
+    await EmployeeModel.findByIdAndDelete(id);
+    return res.status(200).json({ message: "Employee deleted successfully" });
 }

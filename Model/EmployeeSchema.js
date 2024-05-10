@@ -6,11 +6,11 @@ const Employee = Schema({
   phone: { type: Number, required: true },
   desigination: {
     type: String,
-    enum: ["HR", "Manager", "sales"],
+    enum: ["HR", "Manager", "Sales"],
     required: true,
   },
   gender: { type: String, enum: ["Male", "Female"], required: true },
-  coures: { type: String, enum: ["MCA", "BCA", "BSC"], required: true },
+  course: { type: String, enum: ["MCA", "BCA", "BSC"], required: true },
   image: { type: String },
   public_id:{type:String, required:true},
 
