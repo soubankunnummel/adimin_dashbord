@@ -28,14 +28,16 @@ export const CreateEmployee = async (req, res) => {
 //////////// UPDATE EMPLOYEE /////////////
 
 export const update = async (req, res) => {
+
   const id = req.params.id;
+  console.log(id)
   const { body, query } = req;
 
   console.log(req.body);
   let setQurey = {};
 
   if (query.imageType === "null") {
-    // delete body.image;
+    // delete body.image; 
     setQurey = { $set: body };
   } else if (query.imageType === "image") {
     const imageId = await EmployeeModel.findById(id)
@@ -77,7 +79,21 @@ export const deleteEmployee  = async(req, res) => {
   if (!employee) {
     return res.status(400).json({ error: "Employee not found!" });
   }
- 
+  await removeFileFromCloudinary(employee.public_id);
     await EmployeeModel.findByIdAndDelete(id);
     return res.status(200).json({ message: "Employee deleted successfully" });
+}
+
+
+
+export const getEmployeeById = async(req, res) => {
+  const id = req.params.id;
+  const employee = await EmployeeModel.findById(id);
+  
+  
+  if (!employee) {
+    return res.status(400).json({ error: "Employee not found!" });
+  }
+  res.status(200).json(employee)
+ 
 }
